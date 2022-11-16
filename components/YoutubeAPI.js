@@ -3,7 +3,7 @@ var fetch = require("node-fetch");
 class YoutubeAPI {
   constructor() {
     this.apiKEY = "AIzaSyAeivme_yi0vF8jR0pkvwcFRBJXP1vhsII";
-    this.resultsPerPage = 4;
+    this.resultsPerPage = 25;
   }
 
   async getSongs(title) {
