@@ -32,6 +32,7 @@ router.post("/selected", function (req, res, next) {
       });
       if (finded == 1) {
       } else {
+        res.send(JSON.stringify({ error: 1 }));
       }
     }
   });
