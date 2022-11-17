@@ -31,6 +31,7 @@ router.post("/selected", function (req, res, next) {
         }
       });
       if (finded == 1) {
+        res.send(JSON.stringify({ song: song }));
       } else {
         res.send(JSON.stringify({ error: 1 }));
       }
