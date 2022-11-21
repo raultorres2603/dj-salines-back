@@ -4,7 +4,8 @@ class YoutubeAPI {
   constructor() {
     this.apiKEY = "AIzaSyAeivme_yi0vF8jR0pkvwcFRBJXP1vhsII";
     this.resultsPerPage = 25;
-    this.filters = `type=video&part=snippet&maxResults=${this.resultsPerPage}&safeSearch=strict&videoLicense=creativeCommon`;
+    // videoLicense=creativeCommon para que no salgan canciones con copy
+    this.filters = `type=video&part=snippet&maxResults=${this.resultsPerPage}&safeSearch=strict&videoLicense=youtube`;
   }
 
   async getSongs(title) {
