@@ -30,6 +30,7 @@ router.post("/create", (req, res, next) => {
                 res.send(JSON.stringify({ error: 2 }));
               } else {
                 if (idUser.length > 0) {
+                  req.sessionStore.set("user", idUser[0].idUser);
                   res.send(JSON.stringify({ idUser: idUser[0].idUser }));
                 } else {
                   res.send(JSON.stringify({ error: 3 }));
@@ -44,6 +45,7 @@ router.post("/create", (req, res, next) => {
               if (err) {
                 res.send(JSON.stringify({ error: 4 }));
               } else {
+                req.sessionStore.set("user", insert.insertId);
                 res.send(JSON.stringify({ idUser: insert.insertId }));
               }
             }
