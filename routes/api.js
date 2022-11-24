@@ -39,36 +39,10 @@ router.post("/selected", function (req, res, next) {
   });
 });
 
-router.post("/send", (req, res) => {
+router.post("/sended", (req, res, next) => {
   let videoId = req.body.videoId;
   let youtubeApi = new YoutubeAPI();
   let sended = youtubeApi.sendSong(videoId, req.sessionStore.get("user"));
-  switch (sended.updated) {
-    case "error":
-      res.send(JSON.stringify({ updated: "error" }));
-      break;
-
-    case "ok":
-      res.send(
-        JSON.stringify({
-          updated: "ok",
-          dateRepro: sended.dateRepro,
-          hourRepro: sended.hourRepro,
-        })
-      );
-      break;
-
-    case "no-data":
-      res.send(
-        JSON.stringify({
-          updated: "error2",
-        })
-      );
-      break;
-
-    default:
-      break;
-  }
 });
 
 module.exports = router;
