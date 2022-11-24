@@ -39,10 +39,12 @@ router.post("/selected", function (req, res, next) {
   });
 });
 
-router.post("/sended", (req, res, next) => {
+router.post("/sended", async (req, res, next) => {
   let videoId = req.body.videoId;
   let youtubeApi = new YoutubeAPI();
-  let sended = youtubeApi.sendSong(videoId, req.sessionStore.get("user"));
+  let sended = await youtubeApi.sendSong(videoId);
+  console.log(sended);
+  res.send(sended);
 });
 
 module.exports = router;
