@@ -1,5 +1,13 @@
 var express = require("express");
 var router = express.Router();
+var mysql = require("mysql");
+var config = require("../bin/config.json");
+var connection = mysql.createConnection({
+  host: config.host,
+  user: config.user,
+  password: config.password,
+  database: config.database,
+});
 var YoutubeAPI = require("../components/YoutubeAPI.js");
 
 /* GET home page. */
@@ -39,12 +47,39 @@ router.post("/selected", function (req, res, next) {
   });
 });
 
-router.post("/sended", async (req, res, next) => {
+router.post("/sended", function (req, res, next) {
   let videoId = req.body.videoId;
-  let youtubeApi = new YoutubeAPI();
-  let sended = await youtubeApi.sendSong(videoId);
-  console.log(sended);
-  res.send(sended);
+  connection.query(
+    `SELECT idSong FROM songs WHERE idSong = '${videoId}'`,
+    (err, result) => {
+      if (err) {
+        console.log(err);
+      } else {
+        if (result[0]) {
+          res.send(
+            JSON.stringify({
+              inserted: "Esta canción ya existe en nuestra BD.",
+            })
+          );
+        } else {
+          connection.query(
+            `INSERT INTO songs(idSong) VALUES ('${videoId}')`,
+            (err, result) => {
+              if (err) {
+                console.log(err);
+              } else {
+                res.send(
+                  JSON.stringify({
+                    inserted: "Se ha insertado correctamente.",
+                  })
+                );
+              }
+            }
+          );
+        }
+      }
+    }
+  );
 });
 
 module.exports = router;
